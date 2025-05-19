@@ -1,0 +1,54 @@
+<Window x:Class="BibliothequeWPF.EmpruntsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gestion des Emprunts" Height="450" Width="900" Background="#181818">
+    <Window.Resources>
+        <!-- (styles identiques à MainWindow.xaml, voir plus haut) -->
+        <!-- ... (styles Button, TextBox, ComboBox, DataGrid, ListBox, etc.) ... -->
+    </Window.Resources>
+    <DockPanel Margin="10">
+        <!-- Labels au-dessus des champs -->
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,2">
+            <StackPanel Width="120">
+                <TextBlock Text="Nom" Foreground="#B71C1C" FontWeight="Bold" Margin="0,0,10,2"/>
+            </StackPanel>
+            <StackPanel Width="120">
+                <TextBlock Text="Prénom" Foreground="#B71C1C" FontWeight="Bold" Margin="0,0,10,2"/>
+            </StackPanel>
+            <StackPanel Width="200">
+                <TextBlock Text="Livre emprunté" Foreground="#B71C1C" FontWeight="Bold" Margin="0,0,10,2"/>
+            </StackPanel>
+            <StackPanel Width="100">
+                <!-- Espace pour aligner le bouton -->
+            </StackPanel>
+        </StackPanel>
+        <!-- Formulaire d'ajout -->
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,10">
+            <TextBox x:Name="NomTextBox" Width="120" Text="{Binding Nom, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox x:Name="PrenomTextBox" Width="120" Text="{Binding Prenom, UpdateSourceTrigger=PropertyChanged}"/>
+            <ComboBox x:Name="LivresComboBox" Width="200" ItemsSource="{Binding Livres}" SelectedItem="{Binding LivreSelectionne, Mode=TwoWay}"/>
+            <Button Content="Valider" Width="100" Command="{Binding ValiderEmpruntCommand}"/>
+        </StackPanel>
+        <!-- Listing des emprunts sous forme de ListBox -->
+        <ListBox x:Name="EmpruntsListBox" Margin="0,0,0,10" Height="250"
+                 ItemsSource="{Binding Emprunts}"
+                 SelectedItem="{Binding EmpruntSelectionne, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                            <TextBlock Text="{Binding Nom}" FontWeight="Bold" Foreground="White"/>
+                            <TextBlock Text="  -  " Foreground="#B71C1C"/>
+                            <TextBlock Text="{Binding Prenom}" Foreground="White"/>
+                            <TextBlock Text="  -  " Foreground="#B71C1C"/>
+                            <TextBlock Text="{Binding LivreEmprunte}" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="10,0,0,0">
+                            <Button Content="Supprimer" Width="80" Background="#8B0000" Command="{Binding DataContext.SupprimerEmpruntCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+                        </StackPanel>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</Window> 
